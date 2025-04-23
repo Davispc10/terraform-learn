@@ -14,7 +14,7 @@ terraform {
 
 provider "aws" {
   region  = var.aws_region
-  profile = "terraform"
+  profile = var.aws_profile
 }
 
 resource "random_pet" "this" {
@@ -22,7 +22,17 @@ resource "random_pet" "this" {
 }
 
 module "bucket" {
-  source = "./s3"
-  name   = "${random_pet.this.id}-${var.enviroment}"
+  source     = "./s3"
+  name       = "${random_pet.this.id}-${var.enviroment}"
   enviroment = var.enviroment
+}
+
+module "ec2" {
+  source     = "./ec2"
+  enviroment = var.enviroment
+  instance_tags = {
+    Name        = "Ubuntu"
+    Project     = "Curso de Terraform"
+    Environment = "${var.enviroment}"
+  }
 }
