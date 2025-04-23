@@ -1,0 +1,28 @@
+terraform {
+  required_version = "1.11.3"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.94.1"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.7.1"
+    }
+  }
+}
+
+provider "aws" {
+  region  = var.aws_region
+  profile = "terraform"
+}
+
+resource "random_pet" "this" {
+  length = 5
+}
+
+module "bucket" {
+  source = "./s3"
+  name   = "${random_pet.this.id}-${var.enviroment}"
+  enviroment = var.enviroment
+}
