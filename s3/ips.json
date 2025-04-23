@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json.schemastore.org/terraform-0.1.0.json",
+  "description": "Terraform IPs",
+  "type": "object"
+}
